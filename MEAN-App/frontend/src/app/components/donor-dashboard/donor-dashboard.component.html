@@ -1,0 +1,13 @@
+<div class="form-container">
+  <h2>Add New Meal</h2>
+
+  <form (ngSubmit)="addProduct()">
+    <input [(ngModel)]="product.productName" name="productName" placeholder="Product Name" required />
+    <input [(ngModel)]="product.companyName" name="companyName" placeholder="Company" required />
+    <input [(ngModel)]="product.quantity" name="quantity" type="number" placeholder="Quantity" required />
+    <input [(ngModel)]="product.tokenCost" name="tokenCost" type="number" placeholder="Token Cost" required />
+    <input [(ngModel)]="product.waitTime" name="waitTime" type="number" placeholder="Wait Time (mins)" required />
+
+    <button type="submit">Add Product</button>
+  </form>
+</div>

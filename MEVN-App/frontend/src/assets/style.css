@@ -1,0 +1,18 @@
+.form-container {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #f2f2f2;
+  border-radius: 6px;
+}
+input, select, button {
+  width: 100%;
+  margin: 0.5rem 0;
+  padding: 0.7rem;
+}
+button {
+  background: #333;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}

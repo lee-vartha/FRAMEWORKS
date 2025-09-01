@@ -1,0 +1,17 @@
+<div class="form-container">
+  <h2>Register</h2>
+
+  <form (ngSubmit)="register()">
+    <input [(ngModel)]="user.firstName" name="firstName" placeholder="First Name" required />
+    <input [(ngModel)]="user.email" name="email" placeholder="Email" type="email" required />
+    <input [(ngModel)]="user.password" name="password" type="password" placeholder="Password" required />
+    
+    <select [(ngModel)]="user.memberType" name="memberType" required>
+      <option value="" disabled selected>Select Role</option>
+      <option value="donor">Donor</option>
+      <option value="beneficiary">Beneficiary</option>
+    </select>
+
+    <button type="submit">Register</button>
+  </form>
+</div>
