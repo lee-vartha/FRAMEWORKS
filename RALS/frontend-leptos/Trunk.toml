@@ -4,5 +4,3 @@ target = "index.html"
 # Trunk.toml
 [serve]
 port = 5000
-address = "127.0.0.1"
-open = true
