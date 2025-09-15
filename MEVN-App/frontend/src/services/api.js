@@ -1,23 +1,14 @@
-import axios from 'axios'
+import axios from "axios";
 
-const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
-})
+const API = axios.create({
+  baseURL: "http://localhost:5000/api", // adjust if your backend port differs
+});
 
-export default {
-  register(data) {
-    return api.post('/auth/register', data)
-  },
-  login(data) {
-    return api.post('/auth/login', data)
-  },
-  getProducts() {
-    return api.get('/products')
-  },
-  addProduct(data) {
-    return api.post('/products', data)
-  },
-  reserveMeal(data) {
-    return api.post('/reservations', data)
-  }
-}
+// Attach token automatically
+API.interceptors.request.use((req) => {
+  const token = localStorage.getItem("token");
+  if (token) req.headers.Authorization = `Bearer ${token}`;
+  return req;
+});
+
+export default API;

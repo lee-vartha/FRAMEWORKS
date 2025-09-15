@@ -4,23 +4,28 @@
 MEAN:
 1. cd MEAN-App
 2. cd backend
-3. npm run dev
-4. cd frontend
-5. ng serve -o
+3. node index.js
+# [make new terminal]
+4. cd MEAN-App
+5. cd frontend
+6. ng serve -o
 
 # MERN - MongoDB, Express.js, REACT, Node.js
 MERN:
 1. cd MERN-App
 2. cd backend
 3. npm run dev
-4. cd frontend
-5. npm start
+# [make new terminal]
+4. cd MERN-App
+5. cd frontend
+6. npm start
 
 # MEVN - MongoDB, Express.js, VUE, Node.js
 MEVN:
 1. cd MEVN-App
 2. cd backend
 3. npm run dev
+# [make new terminal]
 4. cd frontend
 5. npm run dev
 

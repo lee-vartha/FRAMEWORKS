@@ -1,16 +1,20 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Register from '../pages/Register.vue'
-import Login from '../pages/Login.vue'
-import DonorDashboard from '../pages/DonorDashboard.vue'
+import { createRouter, createWebHistory } from "vue-router";
+import Register from "../pages/Register.vue";
+import Login from "../pages/Login.vue";
+import DonorDashboard from "../pages/DonorDashboard.vue";
+import BeneficiaryDashboard from "../pages/BeneficiaryDashboard.vue";
 
 const routes = [
-  { path: '/register', component: Register },
-  { path: '/login', component: Login },
-  { path: '/donor', component: DonorDashboard },
-  { path: '/', redirect: '/login' }
-]
+  { path: "/", redirect: "/login" },
+  { path: "/register", component: Register },
+  { path: "/login", component: Login },
+  { path: "/donor", component: DonorDashboard },
+  { path: "/beneficiary", component: BeneficiaryDashboard },
+];
 
-export default createRouter({
+const router = createRouter({
   history: createWebHistory(),
-  routes
-})
+  routes,
+});
+
+export default router;

@@ -1,16 +1,9 @@
 const express = require('express');
+const { addProduct, getProducts } = require('../controllers/productController');
+const { protect } = require('../middleware/authMiddleware');
 const router = express.Router();
-const Product = require('../models/Product');
 
-router.get('/', async (req, res) => {
-  const products = await Product.find();
-  res.json(products);
-});
-
-router.post('/', async (req, res) => {
-  const product = new Product(req.body);
-  const saved = await product.save();
-  res.json(saved);
-});
+router.post('/', protect, addProduct);
+router.get('/', getProducts);
 
 module.exports = router;

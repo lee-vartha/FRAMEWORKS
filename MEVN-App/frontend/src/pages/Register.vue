@@ -1,95 +1,52 @@
 <template>
-  <div class="register-page">
-    <div class="form-container">
-      <h2>Register</h2>
-      <form @submit.prevent="register">
-        <input v-model="user.firstName" type="text" placeholder="First Name" required />
-        <input v-model="user.email" type="email" placeholder="Email" required />
-        <input v-model="user.password" type="password" placeholder="Password" required />
-        <select v-model="user.memberType" required>
-          <option disabled value="">Select Role</option>
-          <option value="donor">Donor</option>
-          <option value="beneficiary">Beneficiary</option>
-        </select>
-        <button type="submit">Create Account</button>
-      </form>
-    </div>
+  <div class="p-8 max-w-md mx-auto">
+    <h2 class="text-2xl font-bold mb-4">Register</h2>
+    <form @submit.prevent="register">
+      <input v-model="name" placeholder="Name" class="border p-2 w-full mb-3" />
+      <input v-model="email" type="email" placeholder="Email" class="border p-2 w-full mb-3" />
+      <input v-model="password" type="password" placeholder="Password" class="border p-2 w-full mb-3" />
+      <select v-model="role" class="border p-2 w-full mb-3">
+        <option value="member">Member</option>
+        <option value="beneficiary">Beneficiary</option>
+      </select>
+      <button type="submit" class="bg-blue-500 text-white px-4 py-2">Register</button>
+    </form>
+    <p class="text-red-500 mt-3">{{ error }}</p>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+import API from "../services/api";
 
 export default {
   data() {
     return {
-      user: {
-        firstName: '',
-        email: '',
-        password: '',
-        memberType: ''
-      }
+      name: "",
+      email: "",
+      password: "",
+      role: "beneficiary",
+      error: "",
     };
   },
   methods: {
     async register() {
       try {
-        await axios.post('/api/accounts/register', this.user);
-        alert('Registered successfully!');
-        this.$router.push('/login');
+        const res = await API.post("/auth/register", {
+          name: this.name,
+          email: this.email,
+          password: this.password,
+          role: this.role,
+        });
+        localStorage.setItem("token", res.data.token);
+        if (this.role === "member") {
+          this.$router.push("/donor");
+        } else {
+          this.$router.push("/beneficiary");
+        }
       } catch (err) {
-        console.error(err);
-        alert('Registration failed.');
+        this.error = err.response?.data?.msg || "Error registering";
       }
-    }
-  }
+    },
+  },
 };
 </script>
-
-<style scoped>
-.register-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: #f3f4f6;
-}
-
-.form-container {
-  width: 100%;
-  max-width: 400px;
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-}
-
-h2 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  color: #333;
-}
-
-input, select, button {
-  display: block;
-  width: 100%;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1rem;
-}
-
-button {
-  background-color: #324960;
-  color: white;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-button:hover {
-  background-color: #223348;
-}
-</style>

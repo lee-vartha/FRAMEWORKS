@@ -1,99 +1,43 @@
 <template>
-  <div class="login-page">
-    <div class="form-container">
-      <h2>Login</h2>
-      <form @submit.prevent="login">
-        <input v-model="email" type="email" placeholder="Email" required />
-        <input v-model="password" type="password" placeholder="Password" required />
-        <button type="submit">Login</button>
-      </form>
-    </div>
+  <div class="p-8 max-w-md mx-auto">
+    <h2 class="text-2xl font-bold mb-4">Login</h2>
+    <form @submit.prevent="login">
+      <input v-model="email" type="email" placeholder="Email" class="border p-2 w-full mb-3" />
+      <input v-model="password" type="password" placeholder="Password" class="border p-2 w-full mb-3" />
+      <button type="submit" class="bg-green-500 text-white px-4 py-2">Login</button>
+    </form>
+    <p class="text-red-500 mt-3">{{ error }}</p>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+import API from "../services/api";
 
 export default {
   data() {
     return {
-      email: '',
-      password: ''
+      email: "",
+      password: "",
+      error: "",
     };
   },
   methods: {
     async login() {
       try {
-        const res = await axios.post('/api/accounts/login', {
+        const res = await API.post("/auth/login", {
           email: this.email,
-          password: this.password
+          password: this.password,
         });
-
-        const user = res.data;
-        localStorage.setItem('user', JSON.stringify(user));
-
-        alert(`Welcome, ${user.firstName}!`);
-
-        // Redirect based on role
-        if (user.memberType === 'donor') {
-          this.$router.push('/donor');
+        localStorage.setItem("token", res.data.token);
+        if (res.data.user.role === "member") {
+          this.$router.push("/donor");
         } else {
-          this.$router.push('/beneficiary');
+          this.$router.push("/beneficiary");
         }
-
       } catch (err) {
-        console.error(err);
-        alert('Login failed. Please check your credentials.');
+        this.error = err.response?.data?.msg || "Login failed";
       }
-    }
-  }
+    },
+  },
 };
 </script>
-
-<style scoped>
-.login-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: #f3f4f6;
-}
-
-.form-container {
-  width: 100%;
-  max-width: 400px;
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-}
-
-h2 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  color: #333;
-}
-
-input, button {
-  display: block;
-  width: 100%;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1rem;
-}
-
-button {
-  background-color: #324960;
-  color: white;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-button:hover {
-  background-color: #223348;
-}
-</style>

@@ -1,37 +1,44 @@
 <template>
-  <div class="form-container">
-    <h2>Add Product</h2>
-    <form @submit.prevent="addProduct">
-      <input v-model="product.productName" placeholder="Product Name" />
-      <input v-model="product.companyName" placeholder="Company" />
-      <input v-model="product.quantity" type="number" placeholder="Quantity" />
-      <input v-model="product.tokenCost" type="number" placeholder="Token Cost" />
-      <input v-model="product.waitTime" type="number" placeholder="Wait Time (mins)" />
-      <button type="submit">Add</button>
+  <div class="p-8">
+    <h2 class="text-2xl font-bold mb-4">Donor Dashboard</h2>
+    <form @submit.prevent="addProduct" class="mb-6">
+      <input v-model="productName" placeholder="Product Name" class="border p-2 w-full mb-3" />
+      <input v-model.number="tokenCost" type="number" placeholder="Token Cost" class="border p-2 w-full mb-3" />
+      <button type="submit" class="bg-blue-500 text-white px-4 py-2">Add Product</button>
     </form>
+    <ul>
+      <li v-for="product in products" :key="product._id" class="border-b py-2">
+        {{ product.name }} — {{ product.tokenCost }} tokens
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+import API from "../services/api";
+
 export default {
   data() {
     return {
-      product: {
-        productName: '',
-        companyName: '',
-        quantity: 0,
-        tokenCost: 0,
-        waitTime: 0,
-        donorId: '' // should get from login session ideally
-      }
+      productName: "",
+      tokenCost: 1,
+      products: [],
     };
+  },
+  async mounted() {
+    const res = await API.get("/products");
+    this.products = res.data;
   },
   methods: {
     async addProduct() {
-      await axios.post('/api/products', this.product);
-      alert("Product added!");
-    }
-  }
+      const res = await API.post("/products", {
+        name: this.productName,
+        tokenCost: this.tokenCost,
+      });
+      this.products.push(res.data);
+      this.productName = "";
+      this.tokenCost = 1;
+    },
+  },
 };
 </script>

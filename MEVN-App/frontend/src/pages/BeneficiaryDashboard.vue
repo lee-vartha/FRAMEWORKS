@@ -1,55 +1,49 @@
 <template>
-  <div class="dashboard">
-    <h2>Welcome Beneficiary</h2>
-
-    <h3>Available Meals</h3>
+  <div class="p-8">
+    <h2 class="text-2xl font-bold mb-4">Beneficiary Dashboard</h2>
+    <p class="mb-6">Token Balance: {{ balance }}</p>
     <ul>
-      <li v-for="product in products" :key="product._id">
-        {{ product.productName }} - {{ product.tokenCost }} tokens
-        <button @click="reserve(product)">Reserve</button>
+      <li v-for="product in products" :key="product._id" class="flex justify-between border-b py-2">
+        <span>{{ product.name }} — {{ product.tokenCost }} tokens</span>
+        <button @click="buy(product)" class="bg-green-500 text-white px-3 py-1">Buy</button>
       </li>
     </ul>
-
-    <p v-if="message">{{ message }}</p>
+    <p class="text-red-500 mt-3">{{ error }}</p>
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from 'vue'
-import api from '../services/api'
+<script>
+import API from "../services/api";
 
-const products = ref([])
-const message = ref('')
+export default {
+  data() {
+    return {
+      balance: 0,
+      products: [],
+      error: "",
+    };
+  },
+  async mounted() {
+    const user = await API.get("/auth/me");
+    this.balance = user.data.tokenBalance;
 
-const fetchProducts = async () => {
-  const res = await api.getProducts()
-  products.value = res.data
-}
-
-const reserve = async (product) => {
-  const user = JSON.parse(localStorage.getItem('user'))
-  try {
-    await api.reserveMeal({
-      productId: product._id,
-      beneficiaryId: user._id,
-    })
-    message.value = `Reserved ${product.productName} successfully.`
-    await fetchProducts()
-  } catch (err) {
-    message.value = 'Reservation failed: ' + (err.response?.data?.message || 'Unknown error')
-  }
-}
-
-onMounted(fetchProducts)
+    const res = await API.get("/products");
+    this.products = res.data;
+  },
+  methods: {
+    async buy(product) {
+      try {
+        if (this.balance < product.tokenCost) {
+          this.error = "Insufficient tokens!";
+          return;
+        }
+        await API.post(`/tokens/use`, { productId: product._id });
+        this.balance -= product.tokenCost;
+        this.error = "";
+      } catch {
+        this.error = "Transaction failed.";
+      }
+    },
+  },
+};
 </script>
-
-<style scoped>
-.dashboard {
-  max-width: 600px;
-  margin: auto;
-  padding-top: 40px;
-}
-button {
-  margin-left: 10px;
-}
-</style>
