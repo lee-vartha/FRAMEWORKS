@@ -9,14 +9,13 @@ app.use(cors());
 app.use(express.json());
 
 // routes
-const authRoutes = require('./routes/authRoutes');        // ✅ add this
+const authRoutes = require('./routes/authRoutes'); 
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
 const tokenRoutes = require('./routes/tokenRoutes');
 
-// ✅ mount auth under /api/auth (this is what the frontend calls)
 app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);        // keep if you still need raw users CRUD
+app.use('/api/users', userRoutes);      
 app.use('/api/products', productRoutes);
 app.use('/api/tokens', tokenRoutes);
 

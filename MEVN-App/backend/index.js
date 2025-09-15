@@ -15,7 +15,7 @@ const productRoutes = require('./routes/productRoutes');
 const tokenRoutes = require('./routes/tokenRoutes');
 
 app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);        // keep if you still need raw users CRUD
+app.use('/api/users', userRoutes);        
 app.use('/api/products', productRoutes);
 app.use('/api/tokens', tokenRoutes);
 
