@@ -1,1 +1,23 @@
-<p>login works!</p>
+<div class="container mt-5">
+  <div class="card p-4 shadow">
+    <h2 class="text-center mb-4">Login</h2>
+
+    <input
+      [(ngModel)]="form.email"
+      type="email"
+      placeholder="Email"
+      class="form-control mb-3"
+    />
+
+    <input
+      [(ngModel)]="form.password"
+      type="password"
+      placeholder="Password"
+      class="form-control mb-3"
+    />
+
+    <button (click)="login()" class="btn btn-success w-100">Login</button>
+
+    <p class="text-danger mt-3 text-center">{{ msg }}</p>
+  </div>
+</div>

@@ -1,18 +1,25 @@
 import { Component } from '@angular/core';
-import { ApiService } from 'src/app/services/api.service';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html'
 })
 export class RegisterComponent {
-  user = { firstName: '', email: '', password: '', memberType: 'donor' };
+  form = { name: '', email: '', password: '', role: 'beneficiary' };
+  msg = '';
 
   constructor(private api: ApiService) {}
 
   register() {
-    this.api.register(this.user).subscribe(res => {
-      alert('Registered successfully!');
+    this.api.register(this.form).subscribe({
+      next: (res) => {
+        localStorage.setItem('token', res.token);
+        this.msg = 'Registered successfully!';
+      },
+      error: (err) => {
+        this.msg = err.error?.msg || 'Error';
+      }
     });
   }
 }

@@ -1,39 +1,42 @@
-import { Component } from '@angular/core';
-import { ApiService } from 'src/app/services/api.service';
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-donor-dashboard',
-  templateUrl: './donor-dashboard.component.html',
+  templateUrl: './donor-dashboard.component.html'
 })
-export class DonorDashboardComponent {
-  product = {
-    productName: '',
-    companyName: '',
-    quantity: 0,
-    tokenCost: 0,
-    waitTime: 0,
-    donorId: '' // later to be replaced with actual donor _id (e.g. from login)
-  };
+export class DonorDashboardComponent implements OnInit {
+  products: any[] = [];
+  form = { name: '', description: '', cost: 0 };
+  msg = '';
 
   constructor(private api: ApiService) {}
 
+  ngOnInit(): void {
+    this.loadProducts();
+  }
+
+  loadProducts() {
+    this.api.getProducts().subscribe({
+      next: (res) => (this.products = res),
+      error: () => (this.products = [])
+    });
+  }
+
   addProduct() {
-    // Optional: replace 'donorId' if you have it in storage
-    this.api.addProduct(this.product).subscribe({
+    if (!this.form.name || !this.form.description || !this.form.cost) {
+      this.msg = 'Please fill all fields';
+      return;
+    }
+
+    this.api.addProduct(this.form).subscribe({
       next: (res) => {
-        alert('Product added successfully!');
-        this.product = {
-          productName: '',
-          companyName: '',
-          quantity: 0,
-          tokenCost: 0,
-          waitTime: 0,
-          donorId: ''
-        };
+        this.msg = 'Product added!';
+        this.loadProducts();
+        this.form = { name: '', description: '', cost: 0 }; // reset form
       },
       error: (err) => {
-        console.error(err);
-        alert('Failed to add product.');
+        this.msg = err.error?.msg || 'Error adding product';
       }
     });
   }

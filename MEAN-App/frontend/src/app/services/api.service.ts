@@ -1,29 +1,48 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class ApiService {
-  private baseUrl = 'http://localhost:5000/api';
+  private baseUrl = 'http://localhost:5000/api'; // ✅ Express backend
 
   constructor(private http: HttpClient) {}
 
-  register(data: any) {
-    return this.http.post(`${this.baseUrl}/accounts/register`, data);
+  private getHeaders() {
+    const token = localStorage.getItem('token');
+    return {
+      headers: new HttpHeaders({
+        Authorization: token ? `Bearer ${token}` : ''
+      })
+    };
   }
 
-  login(data: any) {
-    return this.http.post(`${this.baseUrl}/accounts/login`, data);
+  // --- Auth ---
+  register(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/auth/register`, data);
   }
 
-  getProducts() {
+  login(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/auth/login`, data);
+  }
+
+  getProfile(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/auth/me`, this.getHeaders());
+  }
+
+  // --- Products ---
+  addProduct(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/products`, data, this.getHeaders());
+  }
+
+  getProducts(): Observable<any> {
     return this.http.get(`${this.baseUrl}/products`);
   }
 
-  addProduct(data: any) {
-    return this.http.post(`${this.baseUrl}/products`, data);
-  }
-
-  reserveMeal(data: any) {
-    return this.http.post(`${this.baseUrl}/reservations`, data);
+  // --- Tokens ---
+  spendToken(productId: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/tokens/spend`, { productId }, this.getHeaders());
   }
 }
