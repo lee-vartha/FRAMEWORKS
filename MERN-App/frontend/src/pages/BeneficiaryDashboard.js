@@ -1,6 +1,9 @@
+// importing necessary modules and components
 import React, { useState, useEffect } from "react";
 import API from "../api";
 
+
+// creating the function to render the beneficiary dashboards
 function BeneficiaryDashboard({ user, setUser }) {
   const [products, setProducts] = useState([]);
   const [msg, setMsg] = useState("");
@@ -8,17 +11,21 @@ function BeneficiaryDashboard({ user, setUser }) {
 
   // Load products and balance
   useEffect(() => {
+    // get the products and the user balance
     API.get("/products").then((res) => setProducts(res.data));
     API.get("/users/me")
+    // set the balance from the user data
       .then((res) => setBalance(res.data.tokenBalance))
       .catch(() => setBalance(5));
   }, []);
 
+  // function to buy a product
   const buy = async (id) => {
     try {
+      // get the product id and post to the spend endpoint
       const res = await API.post("/tokens/spend", { productId: id });
       setMsg(res.data.msg);
-      setBalance(res.data.balance); // ✅ update balance
+      setBalance(res.data.balance); // update balance
       const updated = await API.get("/products");
       setProducts(updated.data);
     } catch (err) {

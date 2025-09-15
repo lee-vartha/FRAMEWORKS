@@ -1,13 +1,19 @@
+// importing necessary modules and components
 import React, { useState } from 'react';
 import API from '../api';
 
+// function to handle user login
 function Login({ setUser, setActiveTab }) {
+  // constants for form data and messages
   const [form, setForm] = useState({ email: '', password: '' });
   const [msg, setMsg] = useState('');
 
+  // handling form submission
   const handleSubmit = async () => {
     try {
+      // getting the response from the login endpoint
       const res = await API.post('/auth/login', form);
+      // going into local storage and setting the token
       localStorage.setItem("token", res.data.token);
       setUser(res.data.user);
       setActiveTab(res.data.user.role === "member" ? "member" : "beneficiary");

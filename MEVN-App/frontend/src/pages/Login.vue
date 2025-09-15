@@ -22,12 +22,15 @@ export default {
     };
   },
   methods: {
+    // logging in 
     async login() {
       try {
+        // await the API call to login
         const res = await API.post("/auth/login", {
           email: this.email,
           password: this.password,
         });
+        // get token and user role from response
         localStorage.setItem("token", res.data.token);
         if (res.data.user.role === "member") {
           this.$router.push("/donor");

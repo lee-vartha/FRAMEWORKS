@@ -1,3 +1,4 @@
+// importing necessary modules and components
 import React, { useState } from "react";
 import Navbar from "./components/Navbar";
 import Register from "./pages/Register";
@@ -5,6 +6,8 @@ import Login from "./pages/Login";
 import MemberDashboard from "./pages/MemberDashboard";
 import BeneficiaryDashboard from "./pages/BeneficiaryDashboard";
 
+
+// getting the function to render the app
 function App() {
   const [user, setUser] = useState(null);
   const [activeTab, setActiveTab] = useState("register"); // default tab
@@ -32,7 +35,7 @@ function App() {
           <BeneficiaryDashboard user={user} setUser={setUser} />
         )}
         {activeTab === "browse" && (
-          <div className="text-xl">🍲 Browse Meals will go here...</div>
+          <div className="text-xl">Browse Meals will go here...</div>
         )}
       </div>
     </div>

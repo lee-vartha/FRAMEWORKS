@@ -29,6 +29,7 @@ export default {
     };
   },
   methods: {
+    // method to register user
     async register() {
       try {
         const res = await API.post("/auth/register", {
@@ -37,6 +38,7 @@ export default {
           password: this.password,
           role: this.role,
         });
+        // sending token to local storage and redirecting based on role
         localStorage.setItem("token", res.data.token);
         if (this.role === "member") {
           this.$router.push("/donor");

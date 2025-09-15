@@ -1,5 +1,6 @@
 import React from "react";
 
+// function to render a nav bar
 function Navbar({ activeTab, setActiveTab, user, setUser }) {
   const logout = () => {
     localStorage.removeItem("token");
@@ -7,17 +8,18 @@ function Navbar({ activeTab, setActiveTab, user, setUser }) {
     setActiveTab("login");
   };
 
+  // listing out the different tabs
   const tabs = [
-    { key: "register", label: "📝 Register" },
-    { key: "login", label: "🔑 Login" },
-    { key: "member", label: "🏠 Member Dashboard" },
-    { key: "beneficiary", label: "🎟 Beneficiary Dashboard" },
-    { key: "browse", label: "🍲 Browse & Buy Meals" },
+    { key: "register", label: "Register" },
+    { key: "login", label: "Login" },
+    { key: "member", label: "Member Dashboard" },
+    { key: "beneficiary", label: "Beneficiary Dashboard" },
+    { key: "browse", label: "Browse & Buy Meals" },
   ];
 
   return (
     <nav className="flex space-x-6 border-b border-gray-700 px-6 py-3 bg-gray-800">
-      <h1 className="text-lg font-bold flex-1">🎁 Charity App – MERN + JWT</h1>
+      <h1 className="text-lg font-bold flex-1">Charity App – MERN + JWT</h1>
 
       <div className="flex space-x-4">
         {tabs.map((tab) => (

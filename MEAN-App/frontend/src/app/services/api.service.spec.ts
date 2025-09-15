@@ -7,6 +7,7 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
+  // register a new user
   register(data: any) {
     return this.http.post(`${this.baseUrl}/auth/register`, data);
   }

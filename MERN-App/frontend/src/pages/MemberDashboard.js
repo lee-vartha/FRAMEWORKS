@@ -1,15 +1,20 @@
+// importing necessary modules and components
 import React, { useState, useEffect } from "react";
 import API from "../api";
 
+// function to handle member dashboard
 function MemberDashboard({ user, setUser }) {
   const [products, setProducts] = useState([]);
   const [form, setForm] = useState({ name: "", description: "", cost: "" });
 
+  // use effect meaning the code inside runs once when the component loads
   useEffect(() => {
     API.get("/products").then((res) => setProducts(res.data));
   }, []);
 
+  // add the product
   const addProduct = async () => {
+    // if the form is not filled, return
     if (!form.name || !form.description || !form.cost) return;
     await API.post("/products", form);
     const updated = await API.get("/products");

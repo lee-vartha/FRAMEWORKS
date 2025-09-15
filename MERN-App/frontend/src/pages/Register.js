@@ -1,10 +1,13 @@
+// importing necessary modules and components
 import React, { useState } from 'react';
 import API from '../api';
 
+// function to register a new user
 function Register({ setUser, setActiveTab }) {
   const [form, setForm] = useState({ name: '', email: '', password: '', role: 'beneficiary' });
   const [msg, setMsg] = useState('');
 
+  // handling form submission
   const handleSubmit = async () => {
     try {
       const res = await API.post('/auth/register', form);

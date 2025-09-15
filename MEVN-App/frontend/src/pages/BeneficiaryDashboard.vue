@@ -23,6 +23,7 @@ export default {
       error: "",
     };
   },
+  // mounted lifecycle hook to fetch user balance and products
   async mounted() {
     const user = await API.get("/auth/me");
     this.balance = user.data.tokenBalance;
@@ -33,10 +34,12 @@ export default {
   methods: {
     async buy(product) {
       try {
+        // if the balance is less than the product cost, show error
         if (this.balance < product.tokenCost) {
           this.error = "Insufficient tokens!";
           return;
         }
+        // async call to use tokens for the product
         await API.post(`/tokens/use`, { productId: product._id });
         this.balance -= product.tokenCost;
         this.error = "";

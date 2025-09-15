@@ -25,12 +25,15 @@ export default {
       products: [],
     };
   },
+  // mounted means to run this code when the component is loaded
   async mounted() {
     const res = await API.get("/products");
     this.products = res.data;
   },
   methods: {
+    // adding a product
     async addProduct() {
+      // get the product from the form and post it to the backend
       const res = await API.post("/products", {
         name: this.productName,
         tokenCost: this.tokenCost,

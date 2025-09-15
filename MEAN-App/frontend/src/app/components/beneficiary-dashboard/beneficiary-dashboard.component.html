@@ -11,6 +11,7 @@
         *ngFor="let product of products"
       >
         <span>
+            // displaying product details
           <strong>{{ product.name }}</strong> — {{ product.description }} ({{ product.cost }} tokens)
         </span>
         <button class="btn btn-sm btn-success" (click)="buyProduct(product._id)">
