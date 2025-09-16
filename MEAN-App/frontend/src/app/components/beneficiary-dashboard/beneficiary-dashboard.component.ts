@@ -5,7 +5,8 @@ import { ApiService } from '../../services/api.service';
 // @component decorator with metadata
 @Component({
   selector: 'app-beneficiary-dashboard',
-  templateUrl: './beneficiary-dashboard.component.html'
+  templateUrl: './beneficiary-dashboard.component.html',
+  styleUrls: ['./beneficiary-dashboard.component.css']
 })
 // exporting the BeneficiaryDashboardComponent class implementing OnInit interface
 export class BeneficiaryDashboardComponent implements OnInit {
@@ -33,7 +34,7 @@ export class BeneficiaryDashboardComponent implements OnInit {
   loadProfile() {
     this.api.getProfile().subscribe({
       next: (res) => (this.balance = res.tokenBalance),
-      error: () => (this.balance = 0)
+      error: () => (this.balance = 5)
     });
   }
 

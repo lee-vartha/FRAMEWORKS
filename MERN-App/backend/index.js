@@ -16,6 +16,7 @@ const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
 const tokenRoutes = require('./routes/tokenRoutes');
 
+
 // using the routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);      

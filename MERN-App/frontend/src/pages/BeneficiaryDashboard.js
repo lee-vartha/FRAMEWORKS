@@ -25,7 +25,7 @@ function BeneficiaryDashboard({ user, setUser }) {
       // get the product id and post to the spend endpoint
       const res = await API.post("/tokens/spend", { productId: id });
       setMsg(res.data.msg);
-      setBalance(res.data.balance); // update balance
+      setBalance(res.data.tokenBalance); // update balance
       const updated = await API.get("/products");
       setProducts(updated.data);
     } catch (err) {

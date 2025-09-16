@@ -5,7 +5,8 @@ import { ApiService } from '../../services/api.service';
 // defining that the component is the donor dashboard with its selector and template
 @Component({
   selector: 'app-donor-dashboard',
-  templateUrl: './donor-dashboard.component.html'
+  templateUrl: './donor-dashboard.component.html',
+  styleUrls: ['./donor-dashboard.component.css']
 })
 // exporting the DonorDashboardComponent class implementing OnInit interface
 export class DonorDashboardComponent implements OnInit {
